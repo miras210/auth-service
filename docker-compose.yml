@@ -2,7 +2,7 @@ version: '3'
 services:
   postgres:
     container_name: postgres-auth
-    image: postgres:11-alpine
+    image: postgres:14-alpine
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -11,7 +11,7 @@ services:
       - postgres-vol:/var/lib/postgresql/data
       - ./postgres-init/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - auth
   myapp:

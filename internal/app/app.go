@@ -6,6 +6,7 @@ import (
 	"auth-service/internal/repository"
 	"auth-service/internal/service"
 	"context"
+	"errors"
 	"fmt"
 	"go.uber.org/zap"
 	"log"
@@ -60,7 +61,7 @@ func Run() error {
 
 	h := handlers.NewHandler(services, sugar, cfg)
 	logger.Info(cfg.App.AppPort)
-	srv := http.Server{
+	srv := http.Server{ //nolint:gosec
 		Addr:    ":" + cfg.App.AppPort,
 		Handler: h.InitRoutes(),
 	}
@@ -69,7 +70,7 @@ func Run() error {
 
 	go func(errChan chan<- error) {
 		sugar.Infof("Starting server on port: %s\n", cfg.App.AppPort)
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			sugar.Error(err.Error())
 			errChan <- err
 		}

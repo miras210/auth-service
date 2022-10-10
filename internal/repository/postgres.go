@@ -9,7 +9,7 @@ import (
 	"log"
 	"time"
 
-	_ "github.com/jackc/pgx/v4/stdlib"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func NewPostgresPool(cfg *config.DBConf) (*sql.DB, error) {
